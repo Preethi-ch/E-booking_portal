@@ -1,5 +1,26 @@
 from tkinter import Tk,Frame,Label,Entry,Button,messagebox
 from PIL import Image,ImageTk
+import mysql.connector
+
+
+mydb = mysql.connector.connect(
+  host="localhost",
+  user="root",
+  password="Lalitha@1310",
+  database="student_login"
+)
+mycursorst =mydb.cursor()
+
+
+mydba = mysql.connector.connect(
+  host="localhost",
+  user="root",
+  password="Lalitha@1310",
+  database="admin_login"
+)
+mycursorad =mydba.cursor()
+
+
 
 fonts = ('Courier New', 13, 'bold')
 fonts1 = ('Courier New', 17, 'bold')
@@ -106,35 +127,39 @@ class Main:
     
 
     def admin_login(self):
-        global admin, password
-        self.a_name = self.admin_name_entry.get()
-        self.a_pass = self.admin_pass_entry.get()
-        if self.a_name == admin:
-            if self.a_pass == password:
-                self.right.destroy()
-                self.left.destroy()
-                admin_obj = Admin(root)
-            else:
-                messagebox.showerror('INVALID','INCORRECT PASSWORD')
-        else:
-                messagebox.showerror('INVALID','USER ID INVALID')
+        self.b_name = self.admin_name_entry.get()
+        self.b_pass = self.admin_pass_entry.get()
 
+        # Query to check if student credentials exist in the database
+        mycursorad.execute("SELECT * FROM admin WHERE userid= %s AND password = %s"
+                            ,(self.b_name,self.b_pass))
+        admin_data = mycursorad.fetchone()
+        mycursorad.close()
+        if admin_data:
+            self.right.destroy()
+            self.left.destroy()
+            admin_obj = Admin(root)
+        else:
+            messagebox.showerror('INVALID', 'Invalid UserID or Password')
 
 
     def student_login(self):
-        global student, password1
         self.b_name = self.student_name_entry.get()
         self.b_pass = self.student_pass_entry.get()
-        if self.b_name == student:
-            if self.b_pass == password1:
-                self.right.destroy()
-                self.left.destroy()
-                student_obj = Student(root)
-            else:
-                messagebox.showerror('INVALID','INCORRECT PASSWORD')
+
+        # Query to check if student credentials exist in the database
+        mycursorst.execute("SELECT * FROM Student WHERE userid= %s AND password = %s"
+                            ,(self.b_name,self.b_pass))
+        student_data = mycursorst.fetchone()
+        mycursorst.close()
+        if student_data:
+            self.right.destroy()
+            self.left.destroy()
+            student_obj = Student(root)
         else:
-                messagebox.showerror('INVALID','USER ID INVALID')
+            messagebox.showerror('INVALID', 'Invalid UserID or Password')
       
+  
 
 class Admin:
     def __init__(self, root):
