@@ -2,6 +2,7 @@ from tkinter import Tk, Frame, Label, Entry, Button, messagebox,ttk,Scrollbar,VE
 from PIL import Image, ImageTk
 import mysql.connector
 
+
 mydb = mysql.connector.connect(
     host="localhost",
     user="root",
@@ -14,6 +15,7 @@ mycursor = mydb.cursor()
 
 fonts = ('Courier New', 13, 'bold')
 fonts1 = ('Courier New', 17, 'bold')
+
 
 root = Tk()
 
@@ -44,14 +46,23 @@ class Login_page:
     def __init__(self, root):
         self.root = root
         self.root.title("LOGIN PAGE")
-        self.right = Frame(self.root, width=600, height=400, bg='darkseagreen1')
+        self.right = Frame(self.root, width=600, height=400)
         self.right.place(x=0, y=0)
+
+        self.image = Image.open('../assets/login_img.png')
+        self.image = self.image.resize((600, 400))
+        self.image = ImageTk.PhotoImage(self.image)
+        self.image_label = Label(self.right, image=self.image)
+        self.image_label.image=self.image
+        self.image_label.place(x=0, y=0)
 
         self.admin_logo = Image.open('../assets/ai.png')
         self.admin_logo = self.admin_logo.resize((100, 100))
         self.admin_logo = ImageTk.PhotoImage(self.admin_logo)
         self.admin_logo_lbl = Label(self.right, image=self.admin_logo)
         self.admin_logo_lbl.place(x=100, y=30)
+
+
 
         self.admin__login = Label(self.right, text="Admin login")
         self.admin__login.place(x=100, y=125)
@@ -67,8 +78,15 @@ class Login_page:
         self.admin_login_btn = Button(self.right, text='LOGIN', font=fonts, command=self.admin_login)
         self.admin_login_btn.place(x=100, y=250)
 
-        self.left = Frame(self.root, width=600, height=400, bg='darkseagreen1')
-        self.left.place(x=250, y=0)
+        self.left = Frame(self.root, width=600, height=400)
+        self.left.place(x=300, y=0)
+
+        self.image = Image.open('../assets/login_img.png')
+        self.image = self.image.resize((600, 400))
+        self.image = ImageTk.PhotoImage(self.image)
+        self.image_label = Label(self.left, image=self.image)
+        self.image_label.image=self.image
+        self.image_label.place(x=0, y=0)
 
         self.student_logo = Image.open('../assets/si.png')
         self.student_logo = self.student_logo.resize((100, 100))
@@ -128,6 +146,8 @@ class Admin_page:
         self.root.title("ADMIN DASHBOARD")
         self.right = Frame(self.root, width=600, height=400)
         self.right.place(x=0, y=0)
+
+        
         self.image = Image.open('../assets/admin_space_home.png')
         self.image = self.image.resize((600, 400))
         self.image = ImageTk.PhotoImage(self.image)
@@ -152,20 +172,15 @@ class Admin_page:
                               
 
 
-        self.add_book_btn = Button(self.right, text='STUDENT DETAILS', font=fonts, bg='firebrick', fg='white',
-                                   width=20, command=self.student1)
+        self.add_book_btn = Button(self.right, text='STUDENT DETAILS', font=fonts, bg='firebrick', fg='white',width=22, command=self.student1)
         self.add_book_btn.place(x=80, y=140)
-        self.add_book_btn = Button(self.right, text='ADD BOOK DETAILS', font=fonts, bg='firebrick', fg='white',
-                                   width=20, command=self.add_book)
+        self.add_book_btn = Button(self.right, text='ADD OR DELETE STUDENT', font=fonts, bg='firebrick', fg='white',width=22, command=self.add_student)
         self.add_book_btn.place(x=80, y=190)
-        self.add_book_btn = Button(self.right, text='DELETE BOOK', font=fonts, bg='firebrick', fg='white', width=20,
-                                   command=self.delete)
+        self.add_book_btn = Button(self.right, text='ADD OR DELETE BOOK', font=fonts, bg='firebrick', fg='white', width=22,command=self.add_book)
         self.add_book_btn.place(x=80, y=240)
-        self.add_book_btn = Button(self.right, text='ISSUE/RETURN BOOK', font=fonts, bg='firebrick', fg='white',
-                                   width=20, command=self.issue_return)
+        self.add_book_btn = Button(self.right, text='ISSUE/RETURN BOOK', font=fonts, bg='firebrick', fg='white',width=22, command=self.issue_return)
         self.add_book_btn.place(x=80, y=290)
-        self.add_book_btn = Button(self.right, text='PRE-BOOKING REQUEST', font=fonts, bg='firebrick', fg='white',
-                                   width=20, command=self.pre_request)
+        self.add_book_btn = Button(self.right, text='PRE-BOOKING REQUEST', font=fonts, bg='firebrick', fg='white',width=22, command=self.pre_request)
         self.add_book_btn.place(x=80, y=340)
 
     
@@ -186,9 +201,9 @@ class Admin_page:
         self.right.destroy()
         Admin_obj = Add_page(root)
 
-    def delete(self):
+    def add_student(self):
         self.right.destroy()
-        Admin_obj = Delete_page(root)
+        Admin_obj = Student_det_page(root)
 
     def issue_return(self):
         self.right.destroy()
@@ -239,6 +254,7 @@ class Add_page:
         self.page = Frame(self.root, width = 600, height = 400,bg='darksalmon')
         self.page.place(x = 0, y = 0)
 
+
         self.book__details = Label(self.page,text="BOOK DETAILS",fg='red',font=fonts1)
         self.book__details.place(x=200,y=40)
 
@@ -247,7 +263,7 @@ class Add_page:
         self.book_id_entry = Entry(self.page,width=20, font = fonts)
         self.book_id_entry.place(x = 250, y = 100)
 
-        self.book_title= Label(self.page, text = 'Book Name:',fg ='black', font = fonts,width=11)
+        self.book_title= Label(self.page, text = 'BOOK NAME:',fg ='black', font = fonts,width=11)
         self.book_title.place(x = 100, y = 140)
         self.book_title_entry = Entry(self.page,width=20, font = fonts)
         self.book_title_entry.place(x = 250, y = 140)
@@ -257,7 +273,7 @@ class Add_page:
         self.book_author_entry = Entry(self.page,width=20, font = fonts)
         self.book_author_entry.place(x = 250, y = 180)
 
-        self.book_edition= Label(self.page, text = 'Edition:',fg ='black', font = fonts,width=11)
+        self.book_edition= Label(self.page, text = 'EDITION:',fg ='black', font = fonts,width=11)
         self.book_edition.place(x = 100, y = 220)
         self.book_edition_entry = Entry(self.page,width=20, font = fonts)
         self.book_edition_entry.place(x = 250, y = 220)
@@ -267,8 +283,12 @@ class Add_page:
         self.book_status_entry = Entry(self.page,width=20, font = fonts)
         self.book_status_entry.place(x = 250, y = 260)
 
-        self.save_button = Button(self.page, text="Save", command=self.save_to_database)
-        self.save_button.place(x=250, y=300)
+        self.save_button = Button(self.page, text="ADD",width=12, font=fonts,command=self.save_to_database)
+        self.save_button.place(x=150, y=330)
+
+        self.save_button = Button(self.page, text="DELETE",width=12, font=fonts,command=self.delete_from_database)
+        self.save_button.place(x=300, y=330)
+
 
      def save_to_database(self):
         book_id = self.book_id_entry.get()
@@ -282,6 +302,7 @@ class Add_page:
         values = (book_id, book_title, book_author,book_edition, book_status)
         mycursor.execute(query, values)
 
+
         mydb.commit()
         mydb.close()
 
@@ -290,8 +311,39 @@ class Add_page:
         self.book_author_entry.delete(0, 'end')
         self.book_edition_entry.delete(0, 'end')
         self.book_status_entry.delete(0, 'end')
+     
+     
+     def delete_from_database(self):
+        book_id = self.book_id_entry.get()
+        book_title = self.book_title_entry.get()
+        book_author = self.book_author_entry.get()
+        book_edition = self.book_edition_entry.get()
+        book_status = self.book_status_entry.get()
 
-        
+        mydb = mysql.connector.connect(
+             host="localhost",
+             user="root",
+             password="Lalitha@1310",
+             database="library_database"
+        )
+        mycursor = mydb.cursor()
+
+
+        query = "DELETE FROM books WHERE bid=%s AND book_title = %s AND author = %s AND edition = %s AND status = %s"
+        values = (book_id, book_title, book_author, book_edition, book_status)
+
+        mycursor.execute(query,values)
+        mydb.commit()
+        mycursor.close()
+        mydb.close()
+
+        self.book_id_entry.delete(0, 'end')
+        self.book_title_entry.delete(0, 'end')
+        self.book_author_entry.delete(0, 'end')
+        self.book_edition_entry.delete(0, 'end')
+        self.book_status_entry.delete(0, 'end')
+
+
 
 
 
@@ -337,12 +389,109 @@ class Std_page:
 
 
 
-class Delete_page:
+
+class Student_det_page:
     def __init__(self, root):
         self.root = root
-        self.root.title("DELETE BOOK")
-        self.page = Frame(self.root, width=600, height=400,bg='darksalmon')
+        self.root.title("Student Details")
+        self.page = Frame(self.root, width=600, height=400)
         self.page.place(x=0, y=0)
+
+        self.image = Image.open('../assets/Student_add.png')
+        self.image = self.image.resize((600, 400))
+        self.image = ImageTk.PhotoImage(self.image)
+        self.image_label = Label(self.page, image=self.image)
+        self.image_label.place(x=0, y=0)
+
+        self.student__details = Label(self.page,text="STUDENT DETAILS",fg='black',font=fonts)
+        self.student__details.place(x=200,y=40)
+
+        self.student_id = Label(self.page, text = 'Student ID:',fg ='black', font = fonts,width=13)
+        self.student_id.place(x = 110, y = 90)
+        self.student_id_entry = Entry(self.page,width=20, font = fonts)
+        self.student_id_entry.place(x = 260, y = 90)
+
+        self.student_name= Label(self.page, text = 'Student Name:',fg ='black', font = fonts,width=13)
+        self.student_name.place(x = 110, y = 130)
+        self.student_name_entry = Entry(self.page,width=20, font = fonts)
+        self.student_name_entry.place(x = 260, y = 130)
+
+        self.student_email= Label(self.page, text = 'Email:',fg ='black', font = fonts,width=13)
+        self.student_email.place(x = 110, y = 170)
+        self.student_email_entry = Entry(self.page,width=20, font = fonts)
+        self.student_email_entry.place(x = 260, y = 170)
+
+        self.student_branch= Label(self.page, text = 'Branch:',fg ='black', font = fonts,width=13)
+        self.student_branch.place(x = 110, y = 210)
+        self.student_branch_entry = Entry(self.page,width=20, font = fonts)
+        self.student_branch_entry.place(x = 260, y = 210)
+
+        self.student_phonenumber = Label(self.page, text='Phone Number:', fg='black', font=fonts, width=13)
+        self.student_phonenumber.place(x=110, y=250)
+        self.student_phonenumber_entry = Entry(self.page, width=20, font=fonts)
+        self.student_phonenumber_entry.place(x=260, y=250)
+
+        self.student_password = Label(self.page, text='Password:', fg='black', font=fonts, width=13)
+        self.student_password.place(x=110, y=290)
+        self.student_password_entry = Entry(self.page, width=20, font=fonts)
+        self.student_password_entry.place(x=260, y=290)
+
+        self.save_button = Button(self.page, text="ADD", width=12, font=fonts, command=self.save_to_database,bg='azure3')
+        self.save_button.place(x=150, y=340)
+
+        self.save_button = Button(self.page, text="DELETE", width=12, font=fonts, command=self.delete_from_database,bg='azure3')
+        self.save_button.place(x=300, y=340)
+
+
+    def save_to_database(self):
+        student_id = self.student_id_entry.get()
+        student_name = self.student_name_entry.get()
+        student_email= self.student_email_entry .get()
+        student_branch =self.student_branch_entry.get()
+        student_phonenumber = self.student_phonenumber_entry.get()
+        student_password=self.student_password_entry.get()
+    
+        query = "INSERT INTO student (Userid,Name,Email,Branch,PhoneNumber,Password) VALUES (%s, %s, %s, %s,%s,%s)"
+        values = (student_id,student_name,student_email, student_branch,student_phonenumber,student_password)
+        mycursor.execute(query, values)
+
+
+        mydb.commit()
+        mydb.close()
+
+        self.student_id_entry.delete(0, 'end')
+        self.student_name_entry.delete(0, 'end')
+        self.student_email_entry.delete(0, 'end')
+        self.student_branch_entry.delete(0, 'end')
+        self.student_phonenumber_entry.delete(0, 'end')
+        self.student_password_entry.delete(0,'end')
+     
+     
+    def delete_from_database(self):
+        student_id = self.student_id_entry.get()
+        student_name = self.student_name_entry.get()
+        student_email= self.student_email_entry .get()
+        student_branch =self.student_branch_entry.get()
+        student_phonenumber = self.student_phonenumber_entry.get()
+        student_password=self.student_password_entry.get()
+
+
+
+        query = "DELETE FROM Student WHERE Userid=%s AND Name = %s AND Email = %s AND Branch = %s AND PhoneNumber = %s AND Password=%s"
+        values = (student_id,student_name,student_email, student_branch,student_phonenumber,student_password)
+
+        mycursor.execute(query,values)
+        mydb.commit()
+        mycursor.execute(query, values)
+        mydb.commit()
+
+        self.student_id_entry.delete(0, 'end')
+        self.student_name_entry.delete(0, 'end')
+        self.student_email_entry.delete(0, 'end')
+        self.student_branch_entry.delete(0, 'end')
+        self.student_phonenumber_entry.delete(0, 'end')
+        self.student_password_entry.delete(0,'end')
+     
 
 
 
@@ -432,6 +581,37 @@ class book_store_page:
         self.root.title("BOOK STORE")
         self.left = Frame(self.root, width=600, height=400)
         self.left.place(x=0, y=0)
+
+        self.tree = ttk.Treeview(self.root, columns=('bid', 'Name', 'author', 'edition'), show='headings', height=10)
+        self.tree.heading('bid', text='BID')
+        self.tree.heading('Name', text='Book Name')
+        self.tree.heading('author', text='Author') 
+        self.tree.heading('edition', text='Edition') 
+        
+        self.tree.column('bid', width=90, anchor='center')  
+        self.tree.column('Name', width=400, anchor='center') 
+        self.tree.column('author', width=200, anchor='center')  
+        self.tree.column('edition', width=100, anchor='center')    
+        self.tree.pack(pady=80)
+
+        
+        v_scrollbar = Scrollbar(self.root, orient=VERTICAL, command=self.tree.yview)
+        v_scrollbar.pack(side="right", fill="y")
+        self.tree.configure(yscrollcommand=v_scrollbar.set)
+
+     
+        h_scrollbar = Scrollbar(self.root, orient=HORIZONTAL, command=self.tree.xview)
+        h_scrollbar.pack(side="bottom", fill="x")
+        self.tree.configure(xscrollcommand=h_scrollbar.set)
+
+        
+        mycursor.execute("SELECT * FROM books")
+        books_data = mycursor.fetchall()
+
+        
+        for data in books_data:
+            self.tree.insert('', 'end', values=data)
+
 
 
 root.geometry('600x400+550+200')
