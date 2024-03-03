@@ -160,15 +160,6 @@ class Admin_page:
         self.profile_button = Button(self.right, image=self.profile_photo, bg='gray', bd=0,
                                      command=lambda: self.profile(admin_id))
         self.profile_button.place(x=948, y=2)
-
-
-        self.back_image = Image.open('../assets/backicon.png')
-        self.back_image = self.back_image.resize((40, 40))
-        self.back_image = ImageTk.PhotoImage(self.back_image)
-        self.back_button = Label(self.right, image=self.back_image, bg='gray', bd=0)
-        self.back_button.image=self.back_image
-        self.back_button.place(x=10, y=560)
-        self.back_button.bind('<Button-1>',self.go_back)
                               
 
 
@@ -186,10 +177,6 @@ class Admin_page:
         self.add_book_btn.place(x=150, y=450)
 
     
-    def go_back(self,event):    
-        self.right.destroy()
-        Admin_obj=Login_page(root)
-
 
     def profile(self, admin_id):
         self.right.destroy()
@@ -259,6 +246,12 @@ class Add_page:
         self.root.title("Book Details")
         self.page = Frame(self.root, width = 1000, height = 600)
         self.page.place(x = 0, y = 0)
+
+        self.image = Image.open('../assets/book_add.png')
+        self.image = self.image.resize((1000, 600))
+        self.image = ImageTk.PhotoImage(self.image)
+        self.image_label = Label(self.page, image=self.image)
+        self.image_label.place(x=0, y=0)
 
 
         self.book__details = Label(self.page,text="BOOK DETAILS",fg='red',font=fonts1)
@@ -357,8 +350,11 @@ class Std_page:
     def __init__(self, root):
         self.root = root
         self.root.title("STUDENT DETAILS")
-        self.page = Frame(self.root, width=1000, height=600)
+        self.page = Frame(self.root, width=1000, height=600,bg='gray86')
         self.page.place(x=0, y=0)
+
+        heading_label = Label(self.page, text="STUDENT DETAILS", font=('bold',25 ), bg='gray86')
+        heading_label.pack(pady=5)
 
 
         self.tree = ttk.Treeview(self.page, columns=('ID', 'Name', 'Email', 'Branch Name', 'Phone Number'), show='headings', height=20)
@@ -503,8 +499,12 @@ class Booking_info:
     def __init__(self, root):
         self.root = root
         self.root.title("BOOKING_INFO")
-        self.page = Frame(self.root, width=1000, height=600)
+        self.page = Frame(self.root, width=1000, height=600,bg='gray86')
         self.page.place(x=0, y=0)
+
+        heading_label = Label(self.page, text="BOOKING INFORMATION", font=('bold', 25), bg='gray86')
+        heading_label.pack(pady=10)
+
 
         self.tree = ttk.Treeview(self.page, columns=( 'Name', 'Email', 'Book_Title',"BID"), show='headings', height=15)
         self.tree.heading('Name', text='Name')
@@ -542,8 +542,9 @@ class Request_info:
     def __init__(self,root):
         self.root = root
         self.root.title("Request_info")
-        self.page = Frame(self.root, width=1000, height=600)
+        self.page = Frame(self.root, width=1000, height=600,bg='gray86')
         self.page.place(x=0, y=0)
+
 
         self.db = mysql.connector.connect(
         host="localhost",
@@ -559,8 +560,9 @@ class Request_info:
 
         self.refresh_requests()
 
-        accept_button = Button(self.page, text="Accept", command=self.accept_request,width=15,bg='azure3',font=fonts)
+        accept_button = Button(self.page, text="Accept", command=self.accept_request, width=15, bg='azure3', font=fonts)
         accept_button.grid(row=1, column=0, padx=10, pady=5, sticky="w")
+
 
         deny_button = Button(self.page, text="Deny", command=self.deny_request,width=15,bg='azure3',font=fonts)
         deny_button.grid(row=1, column=0, padx=10, pady=5, sticky="e")
@@ -572,7 +574,7 @@ class Request_info:
         self.cursor.execute("SELECT * FROM request_info WHERE status='pending'")
         requests = self.cursor.fetchall()
         for request in requests:
-            self.request_listbox.insert(END, f"{request[0]} - {request[1]} - {request[2]} - {request[4]}")
+           self.request_listbox.insert(END, f"{request[0]}-{request[1]} - {request[2]} - {request[4]}")
 
 
     def accept_request(self):
@@ -606,8 +608,16 @@ class return_next_page:
     def __init__(self, root):
         self.root = root
         self.root.title('RETURNED BOOKS')
-        self.left = Frame(self.root, width=1550, height=800)
+        self.left = Frame(self.root, width=1550, height=800,bg='gray86')
         self.left.place(x=0, y=0)
+
+        self.image = Image.open('../assets/request_next_page.png')
+        self.image = self.image.resize((1000, 600))
+        self.image = ImageTk.PhotoImage(self.image)
+        self.image_label = Label(self.left, image=self.image)
+        self.image_label.place(x=0, y=0)
+
+
         self.book_id_label = Label(self.left, text="Enter Book ID:",font=fonts)
         self.book_id_label.place(x=250,y=250)
         self.book_id_entry = Entry(self.left,width=40)
@@ -659,14 +669,11 @@ class Student_page:
         self.left = Frame(self.root, width=1000, height=600)
         self.left.place(x=0, y=0)
 
-
-        self.back_image = Image.open('../assets/backicon.png')
-        self.back_image = self.back_image.resize((40, 40))
-        self.back_image = ImageTk.PhotoImage(self.back_image)
-        self.back_button = Label(self.left, image=self.back_image, bg='gray', bd=0)
-        self.back_button.image=self.back_image
-        self.back_button.place(x=10, y=560)
-        self.back_button.bind('<Button-1>',self.go_back)
+        self.image = Image.open('../assets/student_home_page_img.png')
+        self.image = self.image.resize((1000, 600))
+        self.image = ImageTk.PhotoImage(self.image)
+        self.image_label = Label(self.left, image=self.image)
+        self.image_label.place(x=0, y=0)
 
 
         self.profile_image = Image.open('../assets/profile1.png')
@@ -708,10 +715,6 @@ class Student_page:
         self.left.destroy()
         store_obj = book_store_page(root)
 
-    def go_back(self,event):    
-        self.left.destroy()
-        std_obj=Login_page(root)
-
 
 
 class student_profile_page(Login_page):
@@ -727,6 +730,8 @@ class student_profile_page(Login_page):
         self.image_label = Label(self.page,image=self.image)
         self.image_label.image=self.image
         self.image_label.place(x=0,y=0)
+
+
 
 
         mycursor.execute("SELECT * FROM student WHERE userid= %s", (sid,))
@@ -758,15 +763,23 @@ class book_now_page:
         self.page = Frame(self.root, width=1000, height=600)
         self.page.place(x=0, y=0)
 
+
+        self.image = Image.open('../assets/book_now.png')
+        self.image = self.image.resize((1000, 600))
+        self.image = ImageTk.PhotoImage(self.image)
+        self.image_label = Label(self.page, image=self.image)
+        self.image_label.place(x=0, y=0)
+
+
         self.book_id = Label(self.page, text='BOOK ID:', fg='black', font=fonts, width=13)
         self.book_id.place(x=200, y=200)
         self.book_id_entry = Entry(self.page, width=30, font=fonts)
-        self.book_id_entry.place(x=350, y=200)
+        self.book_id_entry.place(x=400, y=200)
 
         self.book_name = Label(self.page, text='BOOK NAME:', fg='black', font=fonts, width=13)
         self.book_name.place(x=200, y=250)
         self.book_name_entry = Entry(self.page, width=30, font=fonts)
-        self.book_name_entry.place(x=350, y=250)
+        self.book_name_entry.place(x=400, y=250)
 
         self.student_login_btn = Button(self.page, text='Enter', font=fonts, command=self.book_now_entry,width=20,bg='azure3')
         self.student_login_btn.place(x=300, y=300)
@@ -792,6 +805,10 @@ class Request_status_page:
         self.root.title("REQUEST STATUS")
         self.page = Frame(self.root, width=1000, height=600)
         self.page.place(x=0, y=0)
+
+        heading_label = Label(self.page, text="REQUEST STATUS", font=('bold', 25))
+        heading_label.pack(pady=5)
+
 
         self.connection = mysql.connector.connect(
             host="localhost",
@@ -835,8 +852,13 @@ class book_store_page:
     def __init__(self, root):
         self.root = root
         self.root.title("BOOK STORE")
-        self.left = Frame(self.root, width=1000, height=600)
-        self.left.place(x=0, y=0)
+        self.page = Frame(self.root, width=1000, height=600)
+        self.page.place(x=0, y=0)
+
+
+        heading_label = Label(self.page, text="BOOKS DETAILS", font=('bold', 25))
+        heading_label.pack(pady=5)
+
 
         self.tree = ttk.Treeview(self.root, columns=('bid', 'Name', 'author', 'edition'), show='headings', height=20)
         self.tree.heading('bid', text='BID')
@@ -879,6 +901,12 @@ class Booking_page:
         self.page.place(x=0, y=0)
         
 
+        self.image = Image.open('../assets/book_now_next.png')
+        self.image = self.image.resize((1000, 600))
+        self.image = ImageTk.PhotoImage(self.image)
+        self.image_label = Label(self.page, image=self.image)
+        self.image_label.place(x=0, y=0)
+
         mydb = mysql.connector.connect(
         host="localhost",
         user="root",
@@ -915,16 +943,18 @@ class Booking_page:
     def book_now(self):
         self.booking_window =Toplevel(self.root)
         self.booking_window.title("Book Now")
+        self.booking_window.geometry("300x200")
 
-        Label(self.booking_window, text="Name:").grid(row=0, column=0)
-        Label(self.booking_window, text="Email:").grid(row=1, column=0)
+
+        Label(self.booking_window, text="Name:").grid(row=0, column=2,padx=10,pady=10,sticky="e")
+        Label(self.booking_window, text="Email:").grid(row=1, column=2,padx=10,pady=10,sticky="e")
 
         self.name_entry =Entry(self.booking_window)
-        self.name_entry.grid(row=0, column=1)
+        self.name_entry.grid(row=0, column=4,padx=10,pady=10)
         self.email_entry = Entry(self.booking_window)
-        self.email_entry.grid(row=1, column=1)
+        self.email_entry.grid(row=1, column=4,padx=10,pady=10)
 
-        Button(self.booking_window, text="Confirm Booking", command=self.confirm_booking).grid(row=2, columnspan=2)
+        Button(self.booking_window, text="Confirm Booking", command=self.confirm_booking).grid(row=2, column=3,columnspan=2,pady=10)
 
     def confirm_booking(self):
         mycursor.execute("UPDATE books SET status = 'booked' WHERE bid=%s AND book_title = %s", (self.book_id, self.book_name,))
@@ -942,16 +972,17 @@ class Booking_page:
     def make_request(self):
         self.request_window = Toplevel(self.root)
         self.request_window.title("Make a Request")
+        self.request_window.geometry("300x200")
 
-        Label(self.request_window, text="Name:").grid(row=0, column=0)
-        Label(self.request_window, text="Email:").grid(row=1, column=0)
+        Label(self.request_window, text="Name:").grid(row=0, column=2,padx=10,pady=10,sticky="e")
+        Label(self.request_window, text="Email:").grid(row=1, column=2,padx=10,pady=10,sticky="e")
        
         self.name_entry = Entry(self.request_window)
-        self.name_entry.grid(row=0, column=1)
+        self.name_entry.grid(row=0, column=4,padx=10,pady=10)
         self.email_entry =Entry(self.request_window)
-        self.email_entry.grid(row=1, column=1)
+        self.email_entry.grid(row=1, column=4,padx=10,pady=10)
 
-        Button(self.request_window, text="Submit Request", command=self.submit_request).grid(row=3, columnspan=2)
+        Button(self.request_window, text="Submit Request", command=self.submit_request).grid(row=2, column=3,columnspan=2,pady=10)
 
     def submit_request(self):
         name = self.name_entry.get()
