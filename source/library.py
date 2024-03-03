@@ -115,7 +115,6 @@ class Login_page:
         self.b_name = self.admin_name_entry.get()
         self.b_pass = self.admin_pass_entry.get()
 
-        # Query to check if admin credentials exist in the database
         mycursor.execute("SELECT * FROM admin WHERE userid= %s AND password = %s", (self.b_name, self.b_pass))
         admin_data = mycursor.fetchone()
 
@@ -136,7 +135,7 @@ class Login_page:
         if student_data:
             self.right.destroy()
             self.left.destroy()
-            student_obj = Student_page(root)
+            student_obj = Student_page(root,self.b_name)
         else:
             messagebox.showerror('INVALID', 'Invalid UserID or Password')
 
@@ -183,6 +182,8 @@ class Admin_page:
         self.add_book_btn.place(x=150, y=350)
         self.add_book_btn = Button(self.right, text='REQUEST INFO', font=fonts, bg='firebrick', fg='white',width=22, command=self.request)
         self.add_book_btn.place(x=150, y=400)
+        self.add_book_btn = Button(self.right, text='RETURN', font=fonts, bg='firebrick', fg='white',width=22, command=self.return_next)
+        self.add_book_btn.place(x=150, y=450)
 
     
     def go_back(self,event):    
@@ -213,6 +214,10 @@ class Admin_page:
     def request(self):
         self.right.destroy()
         Admin_obj = Request_info(root)
+    
+    def return_next(self):
+        self.right.destroy()
+        Admin_obj = return_next_page(root)
 
 
 class profile_page(Login_page):
@@ -597,11 +602,59 @@ class Request_info:
 
 
 
+class return_next_page:
+    def __init__(self, root):
+        self.root = root
+        self.root.title('RETURNED BOOKS')
+        self.left = Frame(self.root, width=1550, height=800)
+        self.left.place(x=0, y=0)
+        self.book_id_label = Label(self.left, text="Enter Book ID:",font=fonts)
+        self.book_id_label.place(x=250,y=250)
+        self.book_id_entry = Entry(self.left,width=40)
+        self.book_id_entry.place(x=450,y=250)
+
+        self.update_button = Button(self.left, text="Update Status", command=self.update_status,font=fonts)
+        self.update_button.place(x=400,y=300)
+
+
+    def update_status(self):
+        book_id = self.book_id_entry.get()
+        if not book_id:
+            messagebox.showerror("Error", "Please enter a book ID.")
+            return
+
+        try:
+            connection = mysql.connector.connect(
+                host="localhost",
+                user="root",
+                password="Lalitha@1310",
+                database="library_database"
+            )
+            cursor = connection.cursor()
+
+            cursor.execute("UPDATE books SET status = 'yes' WHERE bid = %s", (book_id,))
+
+        
+            cursor.execute("UPDATE request_info SET status = 'book' WHERE id = %s AND status = 'accepted'", (book_id,))
+
+            connection.commit()
+
+         
+            messagebox.showinfo("Success", "Book status updated successfully.")
+
+            cursor.close()
+            connection.close()
+
+            self.book_id_entry.delete(0, END)
+
+        except mysql.connector.Error as error:
+            messagebox.showerror("Error", f"An error occurred: {error}")
 
 
 class Student_page:
-    def __init__(self, root):
+    def __init__(self, root,sid):
         self.root = root
+        self.sid=sid
         self.root.title('STUDENT DASHBOARD')
         self.left = Frame(self.root, width=1000, height=600)
         self.left.place(x=0, y=0)
@@ -636,7 +689,7 @@ class Student_page:
 
     def request_status_next(self):
         self.left.destroy()
-        request_status_obj = Request_status_page(root)
+        request_status_obj = Request_status_page(root,self.sid)
 
     def book_store_next(self):
         self.left.destroy()
@@ -671,7 +724,6 @@ class book_now_page:
         self.b_name = self.book_name_entry.get()
         self.bi_name = self.book_id_entry.get()
 
-        # Query to check if admin credentials exist in the database
         mycursor.execute("SELECT * FROM Books WHERE bid = %s AND book_title=%s", (self.bi_name,self.b_name,))
         book_data = mycursor.fetchone()
 
@@ -682,13 +734,50 @@ class book_now_page:
             messagebox.showerror('INVALID', ' Invalid Book Name')
 
 
-
 class Request_status_page:
-    def __init__(self, root):
+    def __init__(self, root, userid):
         self.root = root
+        self.userid = userid
         self.root.title("REQUEST STATUS")
         self.page = Frame(self.root, width=1000, height=600)
         self.page.place(x=0, y=0)
+
+        self.connection = mysql.connector.connect(
+            host="localhost",
+            user="root",
+            password="Lalitha@1310",
+            database="library_database"
+        )
+        self.cursor = self.connection.cursor()
+
+      
+        self.cursor.execute("SELECT email FROM student WHERE Userid = %s", (userid,))
+        student_email = self.cursor.fetchone()[0]
+
+        self.tree = ttk.Treeview(self.page, columns=("Student Name", "Student Email", "book_title", "Status"))
+        self.tree.column('#0', width=0, minwidth=0)  
+        self.tree.heading("#0", text="", anchor='w') 
+
+        self.tree.heading("Student Name", text="Student Name")
+        self.tree.heading("Student Email", text="Student Email")
+        self.tree.heading("book_title", text="book_title")
+        self.tree.heading("Status", text="Status")
+
+        self.tree.column('Student Name', width=240, anchor='center') 
+        self.tree.column('Student Email', width=250, anchor='center')  
+        self.tree.column('book_title', width=400, anchor='center') 
+        self.tree.column('Status', width=100, anchor='center')    
+        self.tree.pack(pady=100)
+
+      
+        self.cursor.execute("SELECT name, email, book_title, status FROM request_info WHERE email = %s", (student_email,))
+        requests = self.cursor.fetchall()
+
+        for i, request in enumerate(requests):
+            self.tree.insert("", "end", text=str(i), values=request)
+
+       
+        self.connection.close()
 
 
 class book_store_page:
@@ -751,25 +840,25 @@ class Booking_page:
         book_data = mycursor.fetchone()
 
         if book_data:
-            status = book_data[4]  # Assuming status is in the 6th column of the table
+            status = book_data[4] 
             bid_label = Label(self.page, text=f"bid: {book_data[0]}", font=fonts)
-            bid_label.place(x=250, y=150)
+            bid_label.place(x=350, y=150)
 
             book_title_label =Label(self.page, text=f"Title: {book_data[1]}", font=fonts)
-            book_title_label.place(x=250, y=200)
+            book_title_label.place(x=350, y=200)
 
             author_label =Label(self.page, text=f"Author: {book_data[2]}", font=fonts)
-            author_label.place(x=250, y=250)
+            author_label.place(x=350, y=250)
 
             edition_label =Label(self.page, text=f"Edition: {book_data[3]}", font=fonts)
-            edition_label.place(x=250, y=300)
+            edition_label.place(x=350, y=300)
 
             if status == "yes":
                 self.booking_button = Button(self.page, text="Book Now", command=self.book_now)
-                self.booking_button.place(x=300, y=350)
+                self.booking_button.place(x=400, y=350)
             else:
                 self.request_button = Button(self.page, text="Make a Request", command=self.make_request)
-                self.request_button.place(x=300, y=350)
+                self.request_button.place(x=400, y=350)
 
 
     def book_now(self):
@@ -787,7 +876,6 @@ class Booking_page:
         Button(self.booking_window, text="Confirm Booking", command=self.confirm_booking).grid(row=2, columnspan=2)
 
     def confirm_booking(self):
-        # Update the status of the book to booked in the database
         mycursor.execute("UPDATE books SET status = 'booked' WHERE bid=%s AND book_title = %s", (self.book_id, self.book_name,))
         mydb.commit()
 
@@ -801,11 +889,9 @@ class Booking_page:
         self.booking_window.destroy()
 
     def make_request(self):
-        # Create a new window to capture user's request details
         self.request_window = Toplevel(self.root)
         self.request_window.title("Make a Request")
 
-        # Labels and entry field for capturing user's request details
         Label(self.request_window, text="Name:").grid(row=0, column=0)
         Label(self.request_window, text="Email:").grid(row=1, column=0)
        
@@ -817,7 +903,6 @@ class Booking_page:
         Button(self.request_window, text="Submit Request", command=self.submit_request).grid(row=3, columnspan=2)
 
     def submit_request(self):
-        # Store request details in a database table (you need to create this table)
         name = self.name_entry.get()
         email = self.email_entry.get()
         status="pending"
@@ -833,4 +918,4 @@ class Booking_page:
 
 root.geometry('1000x600+100+50')
 home = welcome_page(root)
-root.mainloop()
+root.mainloop() 
