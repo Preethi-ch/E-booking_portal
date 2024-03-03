@@ -667,6 +667,14 @@ class Student_page:
         self.back_button.image=self.back_image
         self.back_button.place(x=10, y=560)
         self.back_button.bind('<Button-1>',self.go_back)
+
+
+        self.profile_image = Image.open('../assets/profile1.png')
+        self.profile_image = self.profile_image.resize((50, 50))
+        self.profile_photo = ImageTk.PhotoImage(self.profile_image)
+        self.profile_button = Button(self.left, image=self.profile_photo, bg='gray', bd=0,
+                                     command=lambda: self.profile(self.sid))
+        self.profile_button.place(x=948, y=2)
                               
 
         self.student__login = Label(self.left, text="HELLO ENTHUSIASTS!", fg='red', font=fonts1)
@@ -687,6 +695,11 @@ class Student_page:
         book_now_obj = book_now_page(root)
 
 
+    def profile(self, admin_id):
+        self.left.destroy()
+        profile_obj = student_profile_page(root, self.sid)
+
+
     def request_status_next(self):
         self.left.destroy()
         request_status_obj = Request_status_page(root,self.sid)
@@ -698,6 +711,44 @@ class Student_page:
     def go_back(self,event):    
         self.left.destroy()
         std_obj=Login_page(root)
+
+
+
+class student_profile_page(Login_page):
+    def __init__(self, root, sid):
+        self.root = root
+        self.root.title("Profile page")
+        self.page = Frame(self.root, width=1000, height=600)
+        self.page.place(x=0, y=0)
+
+        self.image = Image.open('../assets/profilebg.png')
+        self.image = self.image.resize((1000,600))
+        self.image = ImageTk.PhotoImage(self.image)
+        self.image_label = Label(self.page,image=self.image)
+        self.image_label.image=self.image
+        self.image_label.place(x=0,y=0)
+
+
+        mycursor.execute("SELECT * FROM student WHERE userid= %s", (sid,))
+        student_data = mycursor.fetchone()
+
+        if student_data:
+            student_user_label = Label(self.page, text=f"Userid: {student_data[0]}", font=fonts)
+            student_user_label.place(x=400, y=310)
+
+            student_name_label = Label(self.page, text=f"Name: {student_data[1]}", font=fonts)
+            student_name_label.place(x=400, y=340)
+
+            student_email_label = Label(self.page, text=f"Email: {student_data[2]}", font=fonts)
+            student_email_label.place(x=400, y=370)
+
+            student_phone_label = Label(self.page, text=f"Phone number: {student_data[4]}", font=fonts)
+            student_phone_label.place(x=400, y=400)
+
+            student_phone_label = Label(self.page, text=f"Branch: {student_data[3]}", font=fonts)
+            student_phone_label.place(x=400, y=430)
+
+
 
 
 class book_now_page:
