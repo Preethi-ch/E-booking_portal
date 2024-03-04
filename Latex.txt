@@ -1,0 +1,223 @@
+\documentclass{beamer}
+\usetheme{Boadilla}
+\usepackage{ragged2e}
+\usepackage{graphicx}
+\usepackage{mdframed}
+\setlength{\parskip}{15pt}
+\setbeamersize{text margin left = 5mm,text margin right = 12mm}
+
+
+\setbeamerfont{normal text}{size=\large}
+\setbeamerfont{title}{family=\sffamily, series=\bfseries, size=\LARGE}
+\setbeamerfont{institute}{size=\Large}
+\setbeamerfont{date}{size=\Large}
+
+
+\setbeamercolor{normal text}{fg=black}
+\setbeamerfont{frametitle}{family=\rmfamily, series=\bfseries, size=\Large}
+\setbeamercolor{frametitle}{fg=blue} 
+
+
+%\setbeamercolor{title}{fg=blue}
+%\setbeamercolor{institute}{fg=red}
+%\setbeamercolor{date}{fg=purple} 
+
+
+
+
+
+\title{E-BOOKING PORTAL}
+\institute{SVECW}
+\date{\today} 
+
+
+
+\begin{document}
+\setbeamercolor{frametitle}{fg=blue} 
+
+
+
+
+
+\begin{frame}
+\begin{mdframed}[backgroundcolor=white!20,hidealllines=true,]
+\begin{center}
+    \includegraphics[width=1.5cm,height=24]{svecw logo.jpeg}
+\end{center}
+
+\begin{center}
+    \textbf{\Large\colorbox{yellow!20}{Shri Vishnu Engineering College for Women}}
+\end{center}
+
+\begin{center}
+    \textbf{\Large\colorbox{orange!20}{E-Booking Portal}}
+\end{center}
+
+\begin{flushleft}
+    \textbf{\large\colorbox{red!20}{Team Members:}}
+\end{flushleft}
+
+\begin{itemize}
+    \begin{itemize}
+        \renewcommand{\labelitemi}{.}
+        \item{\colorbox{pink!20}{22B01A4225-D.Niharika -[Git Repository]}}
+        \item{\colorbox{pink!20}{22B01A4216-Ch.Preethi Lalitha -[Backened]}}
+        \item{\colorbox{pink!20}{22B01A4211-A.Anitha -[Latex]}}
+        \item{\colorbox{pink!20}{22B01A4239-J.Devi Satvika -[Frontend]}}
+        \item{\colorbox{pink!20}{22B01A4252-K.Tejaswini -[Backend]}}
+    \end{itemize}
+\end{itemize}
+\end{mdframed}
+\end{frame}
+
+%\begin{frame}
+    %\Huge
+    %\begin{center}
+     %  \textbf{\colorbox{yellow!40}{ E-BOOKING PORTAL}}
+    %\end{center}
+%\end{frame}
+
+
+
+\begin{frame}{Problem Statement}
+    \fontsize{15}{15}\selectfont
+The traditional library management system requires manual data entry, limited accessibility,search and retrieval challenges, lack of real-time information, difficulty in monitoring usage, security concerns, and limited analytical capabilities.
+\end{frame}
+
+
+
+\begin{frame}{Project Scope}
+     \fontsize{14}{14}\selectfont
+    \begin{itemize}
+        \item E-Booking portals for books have emerged as a response to the evolving preferences and lifestyles of readers, propelled by advancements in technology. 
+    \end{itemize}
+    \begin{itemize}
+        \item E-Booking portals streamline the reading experience by enabling users to conveniently check the availability of library books online, eliminating the necessity of frequent library visits and waiting periods for book access.
+    \end{itemize}
+
+
+    
+\end{frame}
+
+
+
+\begin{frame}{About the Project}
+     \fontsize{14}{14}\selectfont
+    \begin{itemize}
+        \item One can often secure a copy of an unreleased or out-of-stock book by pre-booking it, ensuring availability upon release or restocking.
+    \end{itemize}
+    \begin{itemize}
+        \item You will receive a notification once it becomes available.
+    \end{itemize}
+    \begin{itemize}
+        \item This permits us to reserve or pre-order a copy ahead of time.
+    \end{itemize}
+\end{frame}
+
+
+
+\begin{frame}{Data Flow Diagram}
+    \begin{center}
+    \includegraphics[width=8cm]{DFD-0.png}
+\end{center}
+\end{frame}
+
+
+\begin{frame}
+    \begin{center}
+    \includegraphics[width=12cm]{DFD_2.jpg}
+\end{center}
+\end{frame}
+
+
+
+\begin{frame}{Working}
+     \fontsize{14}{14}\selectfont
+    \begin{itemize}
+        \item We initiate our search by exploring the library's catalog to confirm the availability of the desired book.
+    \end{itemize}
+    \begin{itemize}
+        \item If the book is presently unavailable or already reserved by another patron, we may inquire about the possibility of pre-booking or placing a reservation for it.
+    \end{itemize}
+    \begin{itemize}
+        \item We have the option to pre-book the book by inputting our user ID, which will subsequently alert us once the book becomes accessible.
+    \end{itemize}    
+\end{frame}
+
+
+\begin{frame}
+    \begin{center}
+    \includegraphics[width=8cm]{LOGIN PAGE.jpg}
+\end{center}
+\end{frame}
+
+
+\begin{frame}
+    \begin{center}
+    \includegraphics[width=6cm]{STUDENT2.jpg}
+    \includegraphics[width=6cm]{STUDENT1.jpg}
+\end{center}
+\end{frame}
+
+
+\begin{frame}
+    \begin{center}
+    \includegraphics[width=5cm,height=90]{ADMIN_1.jpg}
+    \includegraphics[width=5.5cm,height=90]{ADMIN_2.jpg}
+    \includegraphics[width=5cm,height=100]{ADMIN_4.jpg}
+    \includegraphics[width=5.5cm,height=100]{ADMIN_3.jpg}
+\end{center}
+\end{frame}
+
+
+
+
+\begin{frame}{Abstract}
+     \fontsize{14}{14}\selectfont
+    \begin{itemize}
+        \item Through pre-booking, we can guarantee ourselves a copy of the book, ensuring that we'll have access to it as soon as it becomes available.
+    \end{itemize}
+    \begin{itemize}
+        \item It offers a convenient method to reserve books without the need for frequent visits to the library.
+    \end{itemize}
+    \begin{itemize}
+        \item Pre-booking gives priority to patrons who have reserved a book, ensuring that they receive access to it before others. This system prioritizes those who have taken the proactive step of reserving their desired titles.
+    \end{itemize}
+\end{frame}
+
+\begin{frame}{Tech Stack}
+    \fontsize{15}{15}\selectfont
+    \begin{itemize}
+        \item frontend - python GUI (tkinter)
+    \end{itemize}
+    \begin{itemize}
+        \item Database - MySQL
+    \end{itemize}
+    \begin{itemize}
+        \item backend - python
+    \end{itemize}
+    
+\end{frame}
+
+
+\begin{frame}{Bibliography}
+    \fontsize{15}{15}\selectfont
+    \begin{itemize}
+        \item https://www.pythontutorial.net/tkinter/
+    \end{itemize}
+    \begin{itemize}
+        \item https://data-flair.training/blogs/library-management-system-python-project/
+    \end{itemize}
+    
+\end{frame}
+
+
+
+
+
+\begin{frame}
+     \fontsize{15}{15}\selectfont
+    "In general,Our E-booking portal offers seamless online access, real-time updates, and secure transactions, ensuring convenience and robust search capabilities. With user-friendly interfaces, we enhance customer satisfaction by revolutionizing booking experiences..."
+\end{frame}
+
+\end{document}

@@ -225,6 +225,7 @@ class Admin_page:
 class profile_page(Login_page):
     def __init__(self, root, admin_id):
         self.root = root
+        self.admin_id=admin_id
         self.root.title("Profile page")
         self.page = Frame(self.root, width=1000, height=600)
         self.page.place(x=0, y=0)
@@ -249,7 +250,7 @@ class profile_page(Login_page):
         Admin_obj = Admin_page(root, '')
 
 
-        mycursor.execute("SELECT * FROM admin WHERE userid= %s", (admin_id,))
+        mycursor.execute("SELECT * FROM admin WHERE userid= %s", (self.admin_id,))
         admin_data = mycursor.fetchone()
 
         if admin_data:
@@ -1046,8 +1047,6 @@ class book_store_page:
         
         for data in books_data:
             self.tree.insert('', 'end', values=data)
-
-
 
 
 
