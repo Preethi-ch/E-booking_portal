@@ -147,12 +147,22 @@ class Admin_page:
         self.right = Frame(self.root, width=1000, height=600)
         self.right.place(x=0, y=0)
 
+
         
         self.image = Image.open('../assets/admin_space_home.png')
         self.image = self.image.resize((1000, 600))
         self.image = ImageTk.PhotoImage(self.image)
         self.image_label = Label(self.right, image=self.image)
         self.image_label.place(x=0, y=0)
+
+        self.back_image = Image.open('../assets/backicon.png')
+        self.back_image = self.back_image.resize((40, 40))
+        self.back_image = ImageTk.PhotoImage(self.back_image)
+        self.back_button = Label(self.right, image=self.back_image, bg='gray')
+        self.back_button.image=self.back_image
+        self.back_button.place(x=10, y=520)
+        self.back_button.bind('<Button-1>',self.go_back)
+        
 
         self.profile_image = Image.open('../assets/profile1.png')
         self.profile_image = self.profile_image.resize((50, 50))
@@ -175,6 +185,11 @@ class Admin_page:
         self.add_book_btn.place(x=150, y=400)
         self.add_book_btn = Button(self.right, text='RETURN', font=fonts, bg='firebrick', fg='white',width=22, command=self.return_next)
         self.add_book_btn.place(x=150, y=450)
+
+
+    def go_back(self,event):    
+        self.right.destroy()
+        Admin_obj=Login_page(root)
 
     
 
@@ -220,6 +235,18 @@ class profile_page(Login_page):
         self.image_label = Label(self.page,image=self.image)
         self.image_label.image=self.image
         self.image_label.place(x=0,y=0)
+
+        self.back_image = Image.open('../assets/backicon.png')
+        self.back_image = self.back_image.resize((40, 40))
+        self.back_image = ImageTk.PhotoImage(self.back_image)
+        self.back_button = Label(self.page, image=self.back_image, bg='gray', bd=0)
+        self.back_button.image = self.back_image
+        self.back_button.place(x=20, y=20)
+        self.back_button.bind('<Button-1>', self.go_back)
+
+    def go_back(self, event):
+        self.page.destroy()
+        Admin_obj = Admin_page(root, '')
 
 
         mycursor.execute("SELECT * FROM admin WHERE userid= %s", (admin_id,))
@@ -287,6 +314,18 @@ class Add_page:
 
         self.save_button = Button(self.page, text="DELETE",width=12, font=fonts,command=self.delete_from_database)
         self.save_button.place(x=550, y=430)
+
+        self.back_image = Image.open('../assets/backicon.png')
+        self.back_image = self.back_image.resize((40, 40))
+        self.back_image = ImageTk.PhotoImage(self.back_image)
+        self.back_button = Label(self.page, image=self.back_image, bg='gray', bd=0)
+        self.back_button.image = self.back_image
+        self.back_button.place(x=20, y=20)
+        self.back_button.bind('<Button-1>', self.go_back)
+
+     def go_back(self, event):
+        self.page.destroy()
+        Admin_obj = Admin_page(root, '')
 
 
      def save_to_database(self):
@@ -356,6 +395,17 @@ class Std_page:
         heading_label = Label(self.page, text="STUDENT DETAILS", font=('bold',25 ), bg='gray86')
         heading_label.pack(pady=5)
 
+        self.back_image = Image.open('../assets/backicon.png')
+        self.back_image = self.back_image.resize((40, 40))
+        self.back_image = ImageTk.PhotoImage(self.back_image)
+        self.back_button = Label(self.page, image=self.back_image, bg='gray', bd=0)
+        self.back_button.image = self.back_image
+        self.back_button.place(x=20, y=20)
+        self.back_button.bind('<Button-1>', self.go_back)
+
+     
+
+
 
         self.tree = ttk.Treeview(self.page, columns=('ID', 'Name', 'Email', 'Branch Name', 'Phone Number'), show='headings', height=20)
         self.tree.heading('ID', text='ID')
@@ -373,12 +423,10 @@ class Std_page:
 
         
         v_scrollbar = Scrollbar(self.page, orient=VERTICAL, command=self.tree.yview)
-        v_scrollbar.pack(side="right", fill="y")
         self.tree.configure(yscrollcommand=v_scrollbar.set)
 
      
         h_scrollbar = Scrollbar(self.page, orient=HORIZONTAL, command=self.tree.xview)
-        h_scrollbar.pack(side="bottom", fill="x")
         self.tree.configure(xscrollcommand=h_scrollbar.set)
 
         
@@ -388,6 +436,10 @@ class Std_page:
         
         for data in student_data:
             self.tree.insert('', 'end', values=data)
+
+    def go_back(self, event):
+        self.page.destroy()
+        Admin_obj = Admin_page(root, '')
 
 
 
@@ -443,6 +495,18 @@ class Student_det_page:
 
         self.save_button = Button(self.page, text="DELETE", width=12, font=fonts, command=self.delete_from_database,bg='azure3')
         self.save_button.place(x=530, y=470)
+
+        self.back_image = Image.open('../assets/backicon.png')
+        self.back_image = self.back_image.resize((40, 40))
+        self.back_image = ImageTk.PhotoImage(self.back_image)
+        self.back_button = Label(self.page, image=self.back_image, bg='gray', bd=0)
+        self.back_button.image = self.back_image
+        self.back_button.place(x=20, y=20)
+        self.back_button.bind('<Button-1>', self.go_back)
+
+    def go_back(self, event):
+        self.page.destroy()
+        Admin_obj = Admin_page(root, '')
 
 
     def save_to_database(self):
@@ -505,6 +569,15 @@ class Booking_info:
         heading_label = Label(self.page, text="BOOKING INFORMATION", font=('bold', 25), bg='gray86')
         heading_label.pack(pady=10)
 
+        self.back_image = Image.open('../assets/backicon.png')
+        self.back_image = self.back_image.resize((40, 40))
+        self.back_image = ImageTk.PhotoImage(self.back_image)
+        self.back_button = Label(self.page, image=self.back_image, bg='gray', bd=0)
+        self.back_button.image = self.back_image
+        self.back_button.place(x=20, y=20)
+        self.back_button.bind('<Button-1>', self.go_back)
+
+     
 
         self.tree = ttk.Treeview(self.page, columns=( 'Name', 'Email', 'Book_Title',"BID"), show='headings', height=15)
         self.tree.heading('Name', text='Name')
@@ -520,12 +593,10 @@ class Booking_info:
 
         
         v_scrollbar = Scrollbar(self.page, orient=VERTICAL, command=self.tree.yview)
-        v_scrollbar.pack(side="right", fill="y")
         self.tree.configure(yscrollcommand=v_scrollbar.set)
 
      
         h_scrollbar = Scrollbar(self.page, orient=HORIZONTAL, command=self.tree.xview)
-        h_scrollbar.pack(side="bottom", fill="x")
         self.tree.configure(xscrollcommand=h_scrollbar.set)
 
         mycursor.execute("SELECT * FROM booking_info")
@@ -534,6 +605,11 @@ class Booking_info:
         
         for data in student_data:
             self.tree.insert('', 'end', values=data)
+
+    def go_back(self, event):
+        self.page.destroy()
+        Admin_obj = Admin_page(root, '')
+
 
 
 
@@ -545,6 +621,7 @@ class Request_info:
         self.page = Frame(self.root, width=1000, height=600,bg='gray86')
         self.page.place(x=0, y=0)
 
+    
 
         self.db = mysql.connector.connect(
         host="localhost",
@@ -566,6 +643,20 @@ class Request_info:
 
         deny_button = Button(self.page, text="Deny", command=self.deny_request,width=15,bg='azure3',font=fonts)
         deny_button.grid(row=1, column=0, padx=10, pady=5, sticky="e")
+
+
+        self.back_image = Image.open('../assets/backicon.png')
+        self.back_image = self.back_image.resize((40, 40))
+        self.back_image = ImageTk.PhotoImage(self.back_image)
+        self.back_button = Label(self.page, image=self.back_image, bg='gray', bd=0)
+        self.back_button.image = self.back_image
+        self.back_button.place(x=40, y=560)
+        self.back_button.bind('<Button-1>', self.go_back)
+
+
+    def go_back(self, event):
+        self.page.destroy()
+        Admin_obj = Admin_page(root, '')
 
 
 
@@ -626,6 +717,18 @@ class return_next_page:
         self.update_button = Button(self.left, text="Update Status", command=self.update_status,font=fonts)
         self.update_button.place(x=400,y=300)
 
+        self.back_image = Image.open('../assets/backicon.png')
+        self.back_image = self.back_image.resize((40, 40))
+        self.back_image = ImageTk.PhotoImage(self.back_image)
+        self.back_button = Label(self.left, image=self.back_image, bg='gray', bd=0)
+        self.back_button.image = self.back_image
+        self.back_button.place(x=20, y=20)
+        self.back_button.bind('<Button-1>', self.go_back)
+
+    def go_back(self, event):
+        self.left.destroy()
+        Admin_obj = Admin_page(root, '')
+
 
     def update_status(self):
         book_id = self.book_id_entry.get()
@@ -674,7 +777,15 @@ class Student_page:
         self.image = ImageTk.PhotoImage(self.image)
         self.image_label = Label(self.left, image=self.image)
         self.image_label.place(x=0, y=0)
+        
 
+        self.back_image = Image.open('../assets/backicon.png')
+        self.back_image = self.back_image.resize((40, 40))
+        self.back_image = ImageTk.PhotoImage(self.back_image)
+        self.back_button = Label(self.left, image=self.back_image, bg='gray', bd=0)
+        self.back_button.image=self.back_image
+        self.back_button.place(x=10, y=540)
+        self.back_button.bind('<Button-1>',self.go_back)
 
         self.profile_image = Image.open('../assets/profile1.png')
         self.profile_image = self.profile_image.resize((50, 50))
@@ -696,6 +807,13 @@ class Student_page:
 
         self.book_store_btn = Button(self.left, text='Book Now', font=fonts, command=self.book_now_next, width=20)
         self.book_store_btn.place(x=360, y=300)
+
+
+    def go_back(self,event):    
+        self.left.destroy()
+        Admin_obj=Login_page(root)
+
+
 
     def book_now_next(self):
         self.left.destroy()
@@ -753,6 +871,18 @@ class student_profile_page(Login_page):
             student_phone_label = Label(self.page, text=f"Branch: {student_data[3]}", font=fonts)
             student_phone_label.place(x=400, y=430)
 
+        self.back_image = Image.open('../assets/backicon.png')
+        self.back_image = self.back_image.resize((40, 40))
+        self.back_image = ImageTk.PhotoImage(self.back_image)
+        self.back_button = Label(self.page, image=self.back_image, bg='gray', bd=0)
+        self.back_button.image = self.back_image
+        self.back_button.place(x=20, y=20)
+        self.back_button.bind('<Button-1>', self.go_back)
+
+    def go_back(self, event):
+        self.page.destroy()
+        Admin_obj = Student_page(root, '')
+
 
 
 
@@ -784,6 +914,21 @@ class book_now_page:
         self.student_login_btn = Button(self.page, text='Enter', font=fonts, command=self.book_now_entry,width=20,bg='azure3')
         self.student_login_btn.place(x=300, y=300)
 
+
+        self.back_image = Image.open('../assets/backicon.png')
+        self.back_image = self.back_image.resize((40, 40))
+        self.back_image = ImageTk.PhotoImage(self.back_image)
+        self.back_button = Label(self.page, image=self.back_image, bg='gray', bd=0)
+        self.back_button.image = self.back_image
+        self.back_button.place(x=20, y=20)
+        self.back_button.bind('<Button-1>', self.go_back)
+
+    def go_back(self, event):
+        self.page.destroy()
+        Admin_obj = Student_page(root, '')
+
+
+
     def book_now_entry(self):
         self.b_name = self.book_name_entry.get()
         self.bi_name = self.book_id_entry.get()
@@ -806,6 +951,15 @@ class Request_status_page:
         self.page = Frame(self.root, width=1000, height=600)
         self.page.place(x=0, y=0)
 
+        self.back_image = Image.open('../assets/backicon.png')
+        self.back_image = self.back_image.resize((40, 40))
+        self.back_image = ImageTk.PhotoImage(self.back_image)
+        self.back_button = Label(self.page, image=self.back_image, bg='gray', bd=0)
+        self.back_button.image = self.back_image
+        self.back_button.place(x=20, y=20)
+        self.back_button.bind('<Button-1>', self.go_back)
+
+
         heading_label = Label(self.page, text="REQUEST STATUS", font=('bold', 25))
         heading_label.pack(pady=5)
 
@@ -818,13 +972,13 @@ class Request_status_page:
         )
         self.cursor = self.connection.cursor()
 
+
       
         self.cursor.execute("SELECT email FROM student WHERE Userid = %s", (userid,))
         student_email = self.cursor.fetchone()[0]
 
-        self.tree = ttk.Treeview(self.page, columns=("Student Name", "Student Email", "book_title", "Status"))
-        self.tree.column('#0', width=0, minwidth=0)  
-        self.tree.heading("#0", text="", anchor='w') 
+        self.tree = ttk.Treeview(self.page, columns=("Student Name", "Student Email", "book_title", "Status"),show='headings')
+       
 
         self.tree.heading("Student Name", text="Student Name")
         self.tree.heading("Student Email", text="Student Email")
@@ -847,6 +1001,11 @@ class Request_status_page:
        
         self.connection.close()
 
+    def go_back(self, event):
+        self.page.destroy()
+        Admin_obj = Student_page(root,'')
+
+        
 
 class book_store_page:
     def __init__(self, root):
@@ -870,16 +1029,14 @@ class book_store_page:
         self.tree.column('Name', width=500, anchor='center') 
         self.tree.column('author', width=300, anchor='center')  
         self.tree.column('edition', width=100, anchor='center')    
-        self.tree.pack(pady=80)
+        self.tree.pack(pady=150)
 
         
         v_scrollbar = Scrollbar(self.root, orient=VERTICAL, command=self.tree.yview)
-        v_scrollbar.pack(side="right", fill="y")
         self.tree.configure(yscrollcommand=v_scrollbar.set)
 
      
         h_scrollbar = Scrollbar(self.root, orient=HORIZONTAL, command=self.tree.xview)
-        h_scrollbar.pack(side="bottom", fill="x")
         self.tree.configure(xscrollcommand=h_scrollbar.set)
 
         
@@ -889,6 +1046,10 @@ class book_store_page:
         
         for data in books_data:
             self.tree.insert('', 'end', values=data)
+
+
+
+
 
 
 class Booking_page:
@@ -938,6 +1099,19 @@ class Booking_page:
             else:
                 self.request_button = Button(self.page, text="Make a Request", command=self.make_request)
                 self.request_button.place(x=400, y=350)
+
+
+        self.back_image = Image.open('../assets/backicon.png')
+        self.back_image = self.back_image.resize((40, 40))
+        self.back_image = ImageTk.PhotoImage(self.back_image)
+        self.back_button = Label(self.page, image=self.back_image, bg='gray', bd=0)
+        self.back_button.image = self.back_image
+        self.back_button.place(x=20, y=20)
+        self.back_button.bind('<Button-1>', self.go_back)
+
+    def go_back(self, event):
+        self.page.destroy()
+        Admin_obj = Student_page(root, '')
 
 
     def book_now(self):
