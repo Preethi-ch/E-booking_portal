@@ -6,7 +6,7 @@ import mysql.connector
 mydb = mysql.connector.connect(
     host="localhost",
     user="root",
-    password="Lalitha@1310",
+    password="123",
     database="library_database"
 )
 mycursor = mydb.cursor()
@@ -225,7 +225,6 @@ class Admin_page:
 class profile_page(Login_page):
     def __init__(self, root, admin_id):
         self.root = root
-        self.admin_id=admin_id
         self.root.title("Profile page")
         self.page = Frame(self.root, width=1000, height=600)
         self.page.place(x=0, y=0)
@@ -237,20 +236,10 @@ class profile_page(Login_page):
         self.image_label.image=self.image
         self.image_label.place(x=0,y=0)
 
-        self.back_image = Image.open('../assets/backicon.png')
-        self.back_image = self.back_image.resize((40, 40))
-        self.back_image = ImageTk.PhotoImage(self.back_image)
-        self.back_button = Label(self.page, image=self.back_image, bg='gray', bd=0)
-        self.back_button.image = self.back_image
-        self.back_button.place(x=20, y=20)
-        self.back_button.bind('<Button-1>', self.go_back)
-
-    def go_back(self, event):
-        self.page.destroy()
-        Admin_obj = Admin_page(root, '')
 
 
-        mycursor.execute("SELECT * FROM admin WHERE userid= %s", (self.admin_id,))
+
+        mycursor.execute("SELECT * FROM admin WHERE userid= %s", (admin_id,))
         admin_data = mycursor.fetchone()
 
         if admin_data:
@@ -265,6 +254,19 @@ class profile_page(Login_page):
 
             admin_phone_label = Label(self.page, text=f"Phone number: {admin_data[4]}", font=fonts)
             admin_phone_label.place(x=400, y=400)
+        self.back_image = Image.open('../assets/backicon.png')
+        self.back_image = self.back_image.resize((40, 40))
+        self.back_image = ImageTk.PhotoImage(self.back_image)
+        self.back_button = Label(self.page, image=self.back_image, bg='gray', bd=0)
+        self.back_button.image = self.back_image
+        self.back_button.place(x=20, y=20)
+        self.back_button.bind('<Button-1>', self.go_back)
+
+
+        
+    def go_back(self, event):
+        self.page.destroy()
+        Admin_obj = Admin_page(root,'')
 
 
 
@@ -362,7 +364,7 @@ class Add_page:
         mydb = mysql.connector.connect(
              host="localhost",
              user="root",
-             password="Lalitha@1310",
+             password="123",
              database="library_database"
         )
         mycursor = mydb.cursor()
@@ -627,7 +629,7 @@ class Request_info:
         self.db = mysql.connector.connect(
         host="localhost",
         user="root",
-        password="Lalitha@1310",
+        password="123",
         database="library_database"
         )
 
@@ -741,7 +743,7 @@ class return_next_page:
             connection = mysql.connector.connect(
                 host="localhost",
                 user="root",
-                password="Lalitha@1310",
+                password="123",
                 database="library_database"
             )
             cursor = connection.cursor()
@@ -968,7 +970,7 @@ class Request_status_page:
         self.connection = mysql.connector.connect(
             host="localhost",
             user="root",
-            password="Lalitha@1310",
+            password="123",
             database="library_database"
         )
         self.cursor = self.connection.cursor()
@@ -1070,7 +1072,7 @@ class Booking_page:
         mydb = mysql.connector.connect(
         host="localhost",
         user="root",
-        password="Lalitha@1310",
+        password="123",
         database="library_database"
         )
         mycursor = mydb.cursor()
